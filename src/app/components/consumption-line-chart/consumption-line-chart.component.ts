@@ -19,7 +19,7 @@ export class ConsumptionLineChartComponent implements OnInit{
   public legend:boolean = true;
   public showLabels:boolean = true;
   public animations:boolean = true;
-  public xAxis:boolean = true;
+  public xAxis:boolean = false;
   public yAxis:boolean = true;
   public showYAxisLabel:boolean = true;
   public showXAxisLabel:boolean = true;

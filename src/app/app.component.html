@@ -1,2 +1,14 @@
-<h1>{{title}}</h1>
-<app-graph-panel></app-graph-panel>
+<mat-sidenav-container class="nav-container">
+    <mat-sidenav #sidenav [opened]="isOpened" [disableClose]="true">
+        <app-side-nav-content></app-side-nav-content>
+        <app-button (clickEvent)="toggleSideNav()" buttonColor="primary" buttonText="Close"></app-button>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <app-header (navBarEvent)="toggleSideNav()"></app-header>
+        <app-graph-panel></app-graph-panel>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+
