@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ScaleType } from '@swimlane/ngx-charts';
 import { IConsumptionSeries } from 'src/interface/IConsumptionSeries';
-import { TelemetryService } from '../services/telemetry.service';
+import { TelemetryService } from '../../../services/telemetry.service';
 
 @Component({
   selector: 'app-consumption-bar-chart',

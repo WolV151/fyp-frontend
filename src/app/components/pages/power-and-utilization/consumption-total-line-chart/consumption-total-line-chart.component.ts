@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ScaleType } from '@swimlane/ngx-charts';
 import { IConsumptionSeries } from 'src/interface/IConsumptionSeries';
 import { ISeriesData } from 'src/interface/ISeriesData';
-import { TelemetryService } from '../services/telemetry.service';
+import { TelemetryService } from '../../../services/telemetry.service';
 
 @Component({
   selector: 'app-consumption-total-line-chart',
@@ -19,7 +19,7 @@ export class ConsumptionTotalLineChartComponent implements OnInit{
   public legend:boolean = true;
   public showLabels:boolean = true;
   public animations:boolean = true;
-  public xAxis:boolean = true;
+  public xAxis:boolean = false;
   public yAxis:boolean = true;
   public showYAxisLabel:boolean = true;
   public showXAxisLabel:boolean = true;

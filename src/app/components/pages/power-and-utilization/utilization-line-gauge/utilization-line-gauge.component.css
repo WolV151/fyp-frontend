@@ -1,0 +1,7 @@
+mat-card {
+    width: fit-content;
+}
+
+mat-card-title {
+    margin-bottom: 50px;
+}

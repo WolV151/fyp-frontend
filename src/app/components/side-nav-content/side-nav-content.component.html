@@ -1,0 +1,8 @@
+<mat-list>
+    <mat-list-item *ngFor="let element of dataSource">
+        <div class="d-flex p-2 justify-content-between" (click)="menuEventTrigger(element.name)">
+            <fa-icon [icon]="element.icon" class="fa-2x"></fa-icon>
+            <h5>{{element.name}}</h5>
+        </div>
+    </mat-list-item>
+</mat-list>
