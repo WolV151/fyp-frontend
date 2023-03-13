@@ -40,15 +40,6 @@ export class ConsumptionTotalLineChartComponent implements OnInit{
     this.telemetryService.getTotalPowerConsumptionInRange("2023-03-04T13:00:00Z", "2023-03-07T15:30:00Z").subscribe((messages) => {
       this.telemetryList = messages;
 
-      // const singleData: ISeriesData = {
-      //   name: this.hardCodedIdDummy,
-      //   series: this.telemetryList
-      // }
-      // let collection: ISeriesData[] = []
-
-
-      // collection.push(singleData);
-
       this.metrics = this.telemetryList;
       console.log(this.telemetryList);
     });

@@ -17,10 +17,11 @@ const headerOptions = {
 
 export class TelemetryService {
 
-  private apiUrl: string = `http://127.0.0.1:3000/telemetry`
-  private devConsumptPath: string = "/findDeviceConsumption"
-  private totalDevConsumptionPath: string = "/biggestConsumer"
-  private totalAllDevConsumptionPath:string = "/totalPower"
+  private apiUrl: string = `http://127.0.0.1:3000/telemetry`;
+  private devConsumptPath: string = "/findDeviceConsumption";
+  private totalDevConsumptionPath: string = "/biggestConsumer";
+  private totalAllDevConsumptionPath:string = "/totalPower";
+  private getUtilizationForDevicePath: string = "/findUtilization";
 
 
   constructor(private httpClient: HttpClient) { }
@@ -45,6 +46,13 @@ export class TelemetryService {
     (
       this.apiUrl + this.totalAllDevConsumptionPath + "/" + startDate + "/" + endDate, headerOptions
     );
+  }
+
+  public getUtilizationForDevice = (deviceId:string, startDate:string, endDate:string): Observable<number> => {
+    return this.httpClient.get<number>
+    (
+      this.apiUrl + this.getUtilizationForDevicePath + "/" + deviceId + "/" + startDate + "/" + endDate
+    )
   }
 
 
