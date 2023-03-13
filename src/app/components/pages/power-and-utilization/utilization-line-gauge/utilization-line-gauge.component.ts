@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ScaleType } from '@swimlane/ngx-charts';
-import { TelemetryService } from '../services/telemetry.service';
+import { TelemetryService } from '../../../services/telemetry.service';
 
 @Component({
   selector: 'app-utilization-line-gauge',

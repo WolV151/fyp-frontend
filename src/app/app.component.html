@@ -1,12 +1,18 @@
 <mat-sidenav-container class="nav-container">
     <mat-sidenav #sidenav [opened]="isOpened" [disableClose]="true">
-        <app-side-nav-content></app-side-nav-content>
-        <app-button (clickEvent)="toggleSideNav()" buttonColor="primary" buttonText="Close"></app-button>
+        <div class="mt-3">
+            <app-side-nav-content (sideBarEvent)="toggleSideNav(); redirect($event)"></app-side-nav-content>
+        </div>
+
+        <div class="text-center mt-5">
+            <app-button (clickEvent)="toggleSideNav()" buttonColor="primary" buttonText="Close"></app-button>
+        </div>        
     </mat-sidenav>
 
     <mat-sidenav-content>
         <app-header (navBarEvent)="toggleSideNav()"></app-header>
-        <app-graph-panel></app-graph-panel>
+        <!-- <app-graph-panel></app-graph-panel> -->
+        <router-outlet></router-outlet>
     </mat-sidenav-content>
 </mat-sidenav-container>
 

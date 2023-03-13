@@ -1,0 +1,8 @@
+.d-flex {
+    gap: 20px;
+}
+
+mat-list-item:hover{
+    background-color: whitesmoke;
+    cursor: pointer;
+}
