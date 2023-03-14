@@ -13,7 +13,7 @@ export class ConsumptionBarChartComponent implements OnInit {
   public telemetryList: IConsumptionSeries[] = [];
   public metrics: IConsumptionSeries[] = [];
   public hardCodedIdDummy: string = "MK117-1b6c";
-  public view: [number, number] = [700, 300]
+  public view: [number, number] = [875, 300]
 
   //opts
   public legend: boolean = false;

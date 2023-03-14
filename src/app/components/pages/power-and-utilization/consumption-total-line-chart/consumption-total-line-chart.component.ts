@@ -13,7 +13,7 @@ export class ConsumptionTotalLineChartComponent implements OnInit{
   public telemetryList: ISeriesData[] = [];
   public hardCodedIdDummy:string = "MK117-1b6c";
   public metrics: ISeriesData[] = []
-  public view:[number, number] = [1000,300]
+  public view:[number, number] = [875,300]
 
   //opts
   public legend:boolean = true;

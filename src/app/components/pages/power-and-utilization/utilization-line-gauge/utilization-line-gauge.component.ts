@@ -15,7 +15,7 @@ export class UtilizationLineGaugeComponent implements OnInit {
     domain: ['#f00', '#0f0', '#0ff'],
   };
 
-  public view:[number, number] = [700, 300];
+  public view:[number, number] = [875, 300];
   public value: number = 0;
   public previousValue: number = 100;
   public units:string = "Percentage Utilization";
