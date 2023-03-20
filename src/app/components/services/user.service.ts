@@ -23,4 +23,16 @@ export class UserService {
       this.apiUrl, headerOptions
     );
   }
+
+  public addUser = (user:IUser):Observable<IUser> => {
+    return this.httpClient.post<IUser>(
+      this.apiUrl, user, headerOptions
+    );
+  }
+
+  public deleteUser = (user:string):Observable<string> => {
+    return this.httpClient.delete<string>(
+      this.apiUrl + "/" + user, headerOptions
+    );
+  }
 }

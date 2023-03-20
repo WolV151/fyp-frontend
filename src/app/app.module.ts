@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 // Angular-material imports
 import { MatCardModule } from '@angular/material/card';
@@ -9,9 +10,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -30,7 +38,8 @@ import { ButtonComponent } from './components/button/button.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UserScreenComponent } from './components/pages/users/user-screen/user-screen.component';
-import { DeviceScreenComponent } from './components/pages/devices/device-screen/device-screen.component'
+import { DeviceScreenComponent } from './components/pages/devices/device-screen/device-screen.component';
+import { AddUserDialogComponent } from './components/dialogs/add-user-dialog/add-user-dialog.component'
 
 
 @NgModule({
@@ -46,11 +55,13 @@ import { DeviceScreenComponent } from './components/pages/devices/device-screen/
     HeaderComponent,
     UserScreenComponent,
     DeviceScreenComponent,
+    AddUserDialogComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
     NgxChartsModule,
     BrowserAnimationsModule,
     MatCardModule,
@@ -61,6 +72,11 @@ import { DeviceScreenComponent } from './components/pages/devices/device-screen/
     MatTableModule,
     MatListModule,
     MatDividerModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]
