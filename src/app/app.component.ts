@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router'
+import { AuthService } from './components/services/auth-service.service';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +12,7 @@ import { Router } from '@angular/router'
 export class AppComponent {
   public isOpened: boolean = false;
 
-  constructor(private router: Router){}
+  constructor(private router: Router, private authService: AuthService){}
 
   public toggleSideNav = () => {
     this.isOpened = !this.isOpened;
@@ -29,4 +31,17 @@ export class AppComponent {
         break;
     }
   }
+
+  public handleLogout = () => {
+    this.authService.logout().subscribe(() => {
+      AuthInterceptor.accessToken = '';
+      this.router.navigate(['login']);
+    })
+  }
+
+  public hasNotRoute = (url: string) => {
+    console.log(this.router.url)
+    return this.router.url !== url;
+  }
+
 }

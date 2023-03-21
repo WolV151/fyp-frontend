@@ -6,17 +6,11 @@ import { TelemetryService } from '../../../services/telemetry.service';
 @Component({
   selector: 'app-graph-panel',
   templateUrl: './graph-panel.component.html',
-  styleUrls: ['./graph-panel.component.css']
+  styleUrls: ['./graph-panel.component.css'],
 })
 export class GraphPanelComponent implements OnInit {
   constructor(private telemetryService: TelemetryService ){}
 
-  ngOnInit(): void {
-    
-
-    
-
-
-  }
+  ngOnInit(): void {}
 
 }

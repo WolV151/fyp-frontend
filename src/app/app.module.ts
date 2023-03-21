@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 // Angular-material imports
@@ -39,7 +39,9 @@ import { HeaderComponent } from './components/header/header.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UserScreenComponent } from './components/pages/users/user-screen/user-screen.component';
 import { DeviceScreenComponent } from './components/pages/devices/device-screen/device-screen.component';
-import { AddUserDialogComponent } from './components/dialogs/add-user-dialog/add-user-dialog.component'
+import { AddUserDialogComponent } from './components/dialogs/add-user-dialog/add-user-dialog.component';
+import { LoginComponent } from './components/pages/login/login.component'
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 
 @NgModule({
@@ -56,6 +58,7 @@ import { AddUserDialogComponent } from './components/dialogs/add-user-dialog/add
     UserScreenComponent,
     DeviceScreenComponent,
     AddUserDialogComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,7 +81,13 @@ import { AddUserDialogComponent } from './components/dialogs/add-user-dialog/add
     MatSelectModule,
     MatCheckboxModule
   ],
-  providers: [],
+  providers: [
+    { 
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

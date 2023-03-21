@@ -10,7 +10,7 @@
     </mat-sidenav>
 
     <mat-sidenav-content>
-        <app-header (navBarEvent)="toggleSideNav()"></app-header>
+        <app-header *ngIf="hasNotRoute('/login')" (navBarEvent)="toggleSideNav()" (logOutEvent)="handleLogout()"></app-header>
         <!-- <app-graph-panel></app-graph-panel> -->
         <router-outlet></router-outlet>
     </mat-sidenav-content>

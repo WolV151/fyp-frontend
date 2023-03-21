@@ -1,0 +1,39 @@
+<div class="login-wrapper d-flex justify-content-center align-items-center">
+    <mat-card class="d-flex justify-content-center align-items-center">
+        <mat-card-title class="d-flex justify-content-center m-5">Login</mat-card-title>
+        <mat-card-content>
+            <div class="d-flex">
+                <mat-form-field appearance="fill">
+                  <mat-label>Username</mat-label>
+                    <input
+                      matInput
+                      [(ngModel)]="formUserName"
+                      id="username"
+                      placeholder=""
+                      name="username"
+                      required
+                    />
+                </mat-form-field>
+              </div>
+
+              <div class="d-flex">
+                <mat-form-field appearance="fill">
+                  <mat-label>Password</mat-label>
+                    <input
+                      matInput
+                      type="password"
+                      [(ngModel)]="formPassword"
+                      id="username"
+                      placeholder=""
+                      name="username"
+                      required
+                    />
+                </mat-form-field>
+              </div>
+        </mat-card-content>
+        <mat-card-footer>
+            <app-button buttonColor="primary" buttonText="Sign In" (clickEvent)="handleLogin()" class="d-flex m-5"></app-button>
+        </mat-card-footer>
+    </mat-card>
+
+</div>
