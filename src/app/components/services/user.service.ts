@@ -35,4 +35,16 @@ export class UserService {
       this.apiUrl + "/" + user, headerOptions
     );
   }
+
+  public findUser = (username:string): Observable<IUser> => {
+    return this.httpClient.get<IUser>(
+      this.apiUrl + "/" + username, headerOptions
+    );
+  }
+
+  public updateUser = (username:string, user:IUser):Observable<IUser> => {
+    return this.httpClient.patch<IUser>(
+      this.apiUrl + "/" + username, user, headerOptions
+    );
+  }
 }

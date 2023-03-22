@@ -25,6 +25,8 @@ export class UserScreenComponent implements OnInit {
   public formPassword:string = "";
   public formRole: number = 0;
 
+  public selectedUser: string = "";
+
   constructor(private userService: UserService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
@@ -34,10 +36,19 @@ export class UserScreenComponent implements OnInit {
     
   }
 
-  open = (content: TemplateRef<any>) => {
+  open = (content: TemplateRef<any>, params?: any) => {
+    if (params)
+      this.userService.findUser(params).subscribe((user:IUser) => {
+        this.selectedUser = params;
+        this.formUserName = user.username;
+        this.formRole = user.role;
+      })
+
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
       (result) => {
         console.log(`Closed with: ${result}`);
+        this.formUserName = "";
+        this.formRole = 0;
       });
   }
 
@@ -57,6 +68,20 @@ export class UserScreenComponent implements OnInit {
   deleteUser = (username:string) => {
     this.userService.deleteUser(username).subscribe(() => {
       this.dataSource.data = this.dataSource.data.filter(e => e.username !== username);
+      this.dataSource = new MatTableDataSource(this.dataSource.data);
+    })
+  }
+
+  updateUser = (username:string) => {
+    const updatedUser: IUser = {
+      username: this.formUserName,
+      password: this.formPassword,
+      role: this.formRole
+    }
+
+    this.userService.updateUser(username, updatedUser).subscribe(() => {
+      const index = this.dataSource.data.findIndex(u => u.username === username);
+      this.dataSource.data[index] = updatedUser;
       this.dataSource = new MatTableDataSource(this.dataSource.data);
     })
   }

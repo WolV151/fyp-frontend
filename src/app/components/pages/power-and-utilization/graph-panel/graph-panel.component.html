@@ -1,3 +1,21 @@
+<div class="d-flex flex-row bd-highlight p-3 justify-content-start align-items-center">
+    <mat-form-field class="example-form-field m-3" appearance="outline">
+        <mat-label>Date Range</mat-label>
+        <mat-date-range-input
+        [formGroup]="campaignOne"
+        [rangePicker]="campaignOnePicker"
+        [comparisonStart]=""
+        [comparisonEnd]="">
+        <input matStartDate placeholder="Start date" formControlName="start">
+        <input matEndDate placeholder="End date" formControlName="end">
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
+        <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+    </mat-form-field>
+    <app-button buttonColor="primary" buttonText="Submit" (clickEvent)="null"></app-button>
+</div>
+
 <div class="d-flex flex-row bd-highlight">
     <div class="p-2 bd-highlight">
         <app-consumption-line-chart></app-consumption-line-chart>

@@ -37,7 +37,7 @@ export class ConsumptionTotalLineChartComponent implements OnInit{
   constructor(private telemetryService: TelemetryService) {}
 
   ngOnInit(): void {
-    this.telemetryService.getTotalPowerConsumptionInRange("2023-03-04T13:00:00Z", "2023-03-07T15:30:00Z").subscribe((messages) => {
+    this.telemetryService.getTotalPowerConsumptionInRange("2023-03-01T13:00:00Z", "2023-03-20T15:30:00Z").subscribe((messages) => {
       this.telemetryList = messages;
 
       this.metrics = this.telemetryList;
