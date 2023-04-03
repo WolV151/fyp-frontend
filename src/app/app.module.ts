@@ -18,6 +18,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 
 
 
@@ -45,6 +46,7 @@ import { DeviceScreenComponent } from './components/pages/devices/device-screen/
 import { AddUserDialogComponent } from './components/dialogs/add-user-dialog/add-user-dialog.component';
 import { LoginComponent } from './components/pages/login/login.component'
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { DeviceDetailsComponent } from './components/pages/devices/device-details/device-details.component';
 
 
 @NgModule({
@@ -62,6 +64,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     DeviceScreenComponent,
     AddUserDialogComponent,
     LoginComponent,
+    DeviceDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -85,7 +88,9 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     MatCheckboxModule,
     MatDatepickerModule,
     ReactiveFormsModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    NgxMatTimepickerModule,
+    NgxMatDatetimePickerModule
   ],
   providers: [
     {

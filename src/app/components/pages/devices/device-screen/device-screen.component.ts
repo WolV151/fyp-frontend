@@ -1,6 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeviceService } from 'src/app/components/services/device.service';
 import { IDevice, INewDevice } from 'src/interface/IDevice';
@@ -23,22 +24,34 @@ export class DeviceScreenComponent implements OnInit{
   public formPlugId: string = "";
   public formThreshold: number = 0;
 
-  constructor(private deviceService: DeviceService, private modalService: NgbModal) {}
-
-  ngOnInit(): void {
-    this.deviceService.getAllDevices().subscribe((devices) => {
-      this.deviceList.data = devices;
-      // console.log(this.deviceList.data)
-    })
-
-
+  constructor(private deviceService: DeviceService, private modalService: NgbModal, private router: Router) {
     this.deviceService.getAllSmartPlugs().subscribe((plugs) => {
       this.smartPlugList = plugs;
       console.log(this.smartPlugList);
     })
   }
 
-  open = (content: TemplateRef<any>) => {
+  ngOnInit(): void {
+    this.deviceService.getAllDevices().subscribe((devices) => {
+      this.deviceList.data = devices;
+    })
+  }
+
+  open = (content: TemplateRef<any>, params?: any) => {
+    this.formDeviceName = "";
+    this.formDeviceDescription = "";
+    this.formPlugId = "";
+    this.formThreshold = 0;
+    
+    if (params){
+      this.deviceService.getDeviceDetails(params).subscribe((dev:IDevice) => {
+        this.formDeviceName = dev.device_name;
+        this.formDeviceDescription = dev.description;
+        this.formPlugId = dev.plug_id;
+        this.formThreshold = dev.threshold;
+      })
+    }
+
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size:'lg' }).result.then(
       (result) => {
         console.log(`Closed with: ${result}`);
@@ -82,9 +95,24 @@ export class DeviceScreenComponent implements OnInit{
       plug_id: this.formPlugId,
       threshold: this.formThreshold
     }
-    console.log(newDevice);
-    this.deviceService.addDevice(newDevice);
+    this.deviceService.addDevice(newDevice).subscribe((dev:IDevice) => {
+      this.deviceList.data.push(dev);
+      this.deviceList = new MatTableDataSource(this.deviceList.data);
+    });
   }
-  
 
+  public handleDetailsRedirect = (device_id: string) => {
+    return this.router.navigate(['devices/details', device_id]);
+  }
+
+  public deleteDevices = () => {
+    this.deviceService.deleteDevice(this.selectedRows).subscribe(() => {
+      this.selectedRows.forEach(elem => {
+        this.deviceList.data.splice(this.deviceList.data.indexOf(elem), 1);
+      })
+      this.selectedRows = [];
+      this.deviceList = new MatTableDataSource(this.deviceList.data);
+      this.selection.clear();
+    })
+  }
 }

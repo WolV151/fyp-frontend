@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ScaleType } from '@swimlane/ngx-charts';
 import { IConsumptionSeries } from 'src/interface/IConsumptionSeries';
 import { TelemetryService } from '../../../services/telemetry.service';
@@ -9,6 +9,8 @@ import { TelemetryService } from '../../../services/telemetry.service';
   styleUrls: ['./consumption-bar-chart.component.css']
 })
 export class ConsumptionBarChartComponent implements OnInit {
+  @Input() startDateTime!: Date;
+  @Input() endDateTime!: Date;
 
   public telemetryList: IConsumptionSeries[] = [];
   public metrics: IConsumptionSeries[] = [];

@@ -33,9 +33,22 @@ export class DeviceService {
     );
   }
 
-  public addDevice = (device:INewDevice):Observable<INewDevice> => {
-    return this.httpClient.post<INewDevice>(
-      this.apiUrl, device, headerOptions
+  public addDevice = (device:INewDevice):Observable<IDevice> => {
+    return this.httpClient.post<IDevice>(
+      this.apiUrl, JSON.stringify(device), headerOptions
+    );
+  }
+
+  public deleteDevice = (devices:IDevice[]):Observable<IDevice> => {
+    console.log(devices);
+    return this.httpClient.post<IDevice>(
+      this.apiUrl + "/delete", devices, headerOptions
+    );
+  }
+
+  public getDeviceDetails = (deviceId: string):Observable<IDevice> => {
+    return this.httpClient.get<IDevice>(
+      this.apiUrl + "/" + deviceId, headerOptions
     );
   }
 }

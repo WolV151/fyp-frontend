@@ -24,7 +24,7 @@
         <div class="d-flex justify-content-center">
           <mat-form-field appearance="fill">
             <mat-label>Smart Plug</mat-label>
-            <mat-select [(ngModel)] = "formPlugId" name="role">
+            <mat-select [(ngModel)] = "formPlugId" [(value)]="formPlugId" name="plug" placeholder="{{formPlugId}}">
               <mat-option *ngFor="let plug of smartPlugList" [value]="plug">
                 {{plug}}
               </mat-option>
@@ -62,14 +62,14 @@
 		</form>
 	</div>
 	<div class="modal-footer">
-    <app-button buttonColor="primary" buttonText="Add" (clickEvent)="modal.close('Save click'); addNewDevice()"></app-button>
+    <app-button buttonColor="primary" buttonText="Submit" (clickEvent)="modal.close('Save click'); addNewDevice()"></app-button>
 		<!-- <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button> -->
 	</div>
 </ng-template>
 
 <div class="add-button d-flex justify-content-end p-2" >
   <app-button buttonColor="accent" buttonText="Add Device" (clickEvent)="open(content)"></app-button>
-  <app-button buttonColor="warn" buttonText="Delete Device"></app-button>
+  <app-button buttonColor="warn" buttonText="Delete Device" (clickEvent)="deleteDevices()"></app-button>
   <app-button buttonColor="" buttonText="Configure Device"></app-button>
 </div>
 
@@ -111,16 +111,16 @@
     <!-- Weight Column -->
     <ng-container matColumnDef="weight">
       <th mat-header-cell *matHeaderCellDef> Details </th>
-      <td mat-cell *matCellDef="let element">
-        <app-button buttonColor="primary" buttonText="View"></app-button>
+      <td mat-cell *matCellDef="let device">
+        <app-button buttonColor="primary" buttonText="View" (clickEvent)="handleDetailsRedirect(device._id)"></app-button>
       </td>
     </ng-container>
   
     <!-- Symbol Column -->
     <ng-container matColumnDef="symbol">
       <th mat-header-cell *matHeaderCellDef> Edit </th>
-      <td mat-cell *matCellDef="let element">
-        <app-button buttonColor="warn" buttonText="Edit"></app-button>
+      <td mat-cell *matCellDef="let device">
+        <app-button buttonColor="warn" buttonText="Edit" (clickEvent)="open(content, device._id)"></app-button>
       </td>
     </ng-container>
 
