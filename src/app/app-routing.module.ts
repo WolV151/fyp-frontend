@@ -7,9 +7,10 @@ import { GraphPanelComponent } from './components/pages/power-and-utilization/gr
 import { UserScreenComponent } from './components/pages/users/user-screen/user-screen.component';
 import { AuthGuardLoginService } from './components/services/auth-guard-login.service';
 import { AuthGuardService } from './components/services/auth-guard.service';
+import { UtilPanelComponent } from './components/pages/power-and-utilization/util-panel/util-panel.component';
 
 const routes: Routes = [
-  {path: '', component: GraphPanelComponent, canActivate: [AuthGuardService]},
+  {path: '', component: UtilPanelComponent, canActivate: [AuthGuardService]},
   {path: 'users', component: UserScreenComponent, canActivate: [AuthGuardService]},
   {path: 'devices', component: DeviceScreenComponent, canActivate: [AuthGuardService]},
   {path: 'devices/details/:id', component: DeviceDetailsComponent, canActivate: [AuthGuardService]},

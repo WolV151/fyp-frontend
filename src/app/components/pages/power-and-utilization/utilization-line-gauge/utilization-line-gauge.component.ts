@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ScaleType } from '@swimlane/ngx-charts';
 import { TelemetryService } from '../../../services/telemetry.service';
 
@@ -7,7 +7,7 @@ import { TelemetryService } from '../../../services/telemetry.service';
   templateUrl: './utilization-line-gauge.component.html',
   styleUrls: ['./utilization-line-gauge.component.css']
 })
-export class UtilizationLineGaugeComponent implements OnInit {
+export class UtilizationLineGaugeComponent implements OnInit, OnChanges {
   @Input() startTime!: string;
   @Input() endTime!: string;
   @Input() startDate!: string;
@@ -27,6 +27,9 @@ export class UtilizationLineGaugeComponent implements OnInit {
   public hardCodedIdDummy:string = "MK117-1b6c";
 
   constructor(private telemetryService: TelemetryService) {}
+  ngOnChanges(changes: SimpleChanges): void {
+    this.ngOnInit();
+  }
   
   ngOnInit(): void {
     this.telemetryService.getUtilizationForDevice(this.hardCodedIdDummy, this.startDate, this.endDate).subscribe((messages) => {

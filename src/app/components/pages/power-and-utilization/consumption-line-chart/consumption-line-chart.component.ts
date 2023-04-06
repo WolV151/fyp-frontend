@@ -1,4 +1,4 @@
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Type} from '@angular/core';
 import { ScaleType } from '@swimlane/ngx-charts';
 import { IConsumptionSeries } from 'src/interface/IConsumptionSeries';
 import { ISeriesData } from 'src/interface/ISeriesData';
@@ -9,7 +9,7 @@ import { TelemetryService } from '../../../services/telemetry.service';
   templateUrl: './consumption-line-chart.component.html',
   styleUrls: ['./consumption-line-chart.component.css']
 })
-export class ConsumptionLineChartComponent implements OnInit{
+export class ConsumptionLineChartComponent implements OnInit, OnChanges{
   @Input() startDate!: string;
   @Input() endDate!: string;
 
@@ -41,6 +41,9 @@ export class ConsumptionLineChartComponent implements OnInit{
   constructor(private telemetryService: TelemetryService) { 
     
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.ngOnInit();
+  }
 
   ngOnInit(): void {
     this.telemetryService.getDeviceConsumption(this.hardCodedIdDummy, this.startDate, this.endDate).subscribe((messages) => {
@@ -55,6 +58,31 @@ export class ConsumptionLineChartComponent implements OnInit{
       collection.push(singleData);
 
       this.metrics = collection;
+
+      for (let i = 0; i < this.metrics[0].series.length; i++) {
+        try{
+          const current = new Date(this.metrics[0].series[i].name);
+          const next = new Date(this.metrics[0].series[i+1].name);
+          const dif = (next.getTime() - current.getTime()) / 1000;
+
+          if (dif > 10) {
+            const newDate: Date = new Date(this.metrics[0].series[i+1].name)
+
+            for (let j=1;j<4;j++) {
+              newDate.setSeconds(newDate.getSeconds() - j);
+              const newZero: IConsumptionSeries = {
+                name: newDate.toISOString(),
+                value: 0
+              }
+              this.metrics[0].series.splice(i+1, 0, newZero);
+            }
+            i+=2;
+          }
+
+        } catch (e: unknown) {
+          break;
+        }
+      }
     });
   }
 }

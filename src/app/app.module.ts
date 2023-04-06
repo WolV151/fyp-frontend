@@ -48,6 +48,7 @@ import { AddUserDialogComponent } from './components/dialogs/add-user-dialog/add
 import { LoginComponent } from './components/pages/login/login.component'
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { DeviceDetailsComponent } from './components/pages/devices/device-details/device-details.component';
+import { UtilPanelComponent } from './components/pages/power-and-utilization/util-panel/util-panel.component';
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import { DeviceDetailsComponent } from './components/pages/devices/device-detail
     AddUserDialogComponent,
     LoginComponent,
     DeviceDetailsComponent,
+    UtilPanelComponent,
   ],
   imports: [
     BrowserModule,

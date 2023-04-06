@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ScaleType } from '@swimlane/ngx-charts';
 import { IConsumptionSeries } from 'src/interface/IConsumptionSeries';
 import { TelemetryService } from '../../../services/telemetry.service';
@@ -8,7 +8,7 @@ import { TelemetryService } from '../../../services/telemetry.service';
   templateUrl: './consumption-bar-chart.component.html',
   styleUrls: ['./consumption-bar-chart.component.css']
 })
-export class ConsumptionBarChartComponent implements OnInit {
+export class ConsumptionBarChartComponent implements OnInit, OnChanges {
   @Input() startDate!: string;
   @Input() endDate!: string;
 
@@ -39,12 +39,16 @@ export class ConsumptionBarChartComponent implements OnInit {
 
 
   constructor(private telemetryService: TelemetryService) { }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.ngOnInit();
+  }
 
   // "2023-03-03T13:00:00Z", "2023-03-07T15:30:00Z"
   ngOnInit(): void {
     this.telemetryService.getTotalConsumptionByDevice(this.startDate, this.endDate).subscribe((messages) => {
       this.telemetryList = messages;
       this.metrics = this.telemetryList;
+      console.log(this.metrics);
     });
   }
 
