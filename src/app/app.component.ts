@@ -40,7 +40,6 @@ export class AppComponent {
   }
 
   public hasNotRoute = (url: string) => {
-    console.log(this.router.url)
     return this.router.url !== url;
   }
 

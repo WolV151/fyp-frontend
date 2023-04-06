@@ -18,8 +18,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
-
+import { NgxMatDatetimePickerModule } from '@angular-material-components/datetime-picker';
+import { MatRadioButton, MatRadioModule } from '@angular/material/radio';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -90,7 +91,8 @@ import { DeviceDetailsComponent } from './components/pages/devices/device-detail
     ReactiveFormsModule,
     MatNativeDateModule,
     NgxMatTimepickerModule,
-    NgxMatDatetimePickerModule
+    NgxMatDatetimePickerModule,
+    MatRadioModule,
   ],
   providers: [
     {

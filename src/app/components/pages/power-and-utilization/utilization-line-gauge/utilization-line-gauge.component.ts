@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ScaleType } from '@swimlane/ngx-charts';
 import { TelemetryService } from '../../../services/telemetry.service';
 
@@ -8,6 +8,11 @@ import { TelemetryService } from '../../../services/telemetry.service';
   styleUrls: ['./utilization-line-gauge.component.css']
 })
 export class UtilizationLineGaugeComponent implements OnInit {
+  @Input() startTime!: string;
+  @Input() endTime!: string;
+  @Input() startDate!: string;
+  @Input() endDate!: string;
+
   colorScheme = {
     name: 'myScheme',
     selectable: true,
@@ -24,7 +29,7 @@ export class UtilizationLineGaugeComponent implements OnInit {
   constructor(private telemetryService: TelemetryService) {}
   
   ngOnInit(): void {
-    this.telemetryService.getUtilizationForDevice(this.hardCodedIdDummy, "2023-03-03T13:00:00Z", "2023-03-03T15:30:00Z").subscribe((messages) => {
+    this.telemetryService.getUtilizationForDevice(this.hardCodedIdDummy, this.startDate, this.endDate).subscribe((messages) => {
       this.value = messages;
     })
   }

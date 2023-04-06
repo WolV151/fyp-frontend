@@ -51,4 +51,10 @@ export class DeviceService {
       this.apiUrl + "/" + deviceId, headerOptions
     );
   }
+
+  public updateDevice = (deviceId: string, device: INewDevice):Observable<IDevice> => {
+    return this.httpClient.patch<IDevice>(
+      this.apiUrl + "/" + deviceId, device, headerOptions
+    );
+  }
 }

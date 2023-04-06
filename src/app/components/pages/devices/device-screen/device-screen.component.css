@@ -6,3 +6,16 @@ table {
 .add-button {
     gap: 15px;
 }
+
+.input-wrapper {
+    gap: 10px;
+}
+
+.flex-column {
+    /* border: 1px solid gray;
+    border-radius: 16px; */
+}
+
+.delay-wrapper {
+    gap: 20px;
+}

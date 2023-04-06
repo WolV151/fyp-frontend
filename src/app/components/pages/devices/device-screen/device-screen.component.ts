@@ -3,6 +3,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CommandService } from 'src/app/components/services/command.service';
 import { DeviceService } from 'src/app/components/services/device.service';
 import { IDevice, INewDevice } from 'src/interface/IDevice';
 
@@ -18,13 +19,21 @@ export class DeviceScreenComponent implements OnInit{
   public selection: SelectionModel<IDevice> = new SelectionModel<IDevice>(true, []);
   public selectedRows: IDevice[] = [];
   public smartPlugList: string[] = [];
+  public selectedId: string = "";
+  
+  public isEdit:boolean = false;
 
   public formDeviceName: string = "";
   public formDeviceDescription: string = "";
   public formPlugId: string = "";
   public formThreshold: number = 0;
 
-  constructor(private deviceService: DeviceService, private modalService: NgbModal, private router: Router) {
+  public plugDelay = 0;
+
+  public countDownHours: number = 0;
+  public countDownMinutes: number = 1;
+
+  constructor(private deviceService: DeviceService, private commandService:CommandService, private modalService: NgbModal, private router: Router) {
     this.deviceService.getAllSmartPlugs().subscribe((plugs) => {
       this.smartPlugList = plugs;
       console.log(this.smartPlugList);
@@ -44,7 +53,9 @@ export class DeviceScreenComponent implements OnInit{
     this.formThreshold = 0;
     
     if (params){
+      this.isEdit = true;
       this.deviceService.getDeviceDetails(params).subscribe((dev:IDevice) => {
+        this.selectedId = dev._id;
         this.formDeviceName = dev.device_name;
         this.formDeviceDescription = dev.description;
         this.formPlugId = dev.plug_id;
@@ -54,6 +65,7 @@ export class DeviceScreenComponent implements OnInit{
 
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size:'lg' }).result.then(
       (result) => {
+        this.isEdit = false;
         console.log(`Closed with: ${result}`);
       });
   }
@@ -79,8 +91,10 @@ export class DeviceScreenComponent implements OnInit{
     }
     const myVar: boolean = this.selection.isSelected(row);
     if (myVar) {
-      if (!this.selectedRows.includes(row))
+      if (!this.selectedRows.includes(row)){
         this.selectedRows.push(row);
+        console.log(this.selectedRows)
+      }
       
     } else {
       this.selectedRows.splice(this.selectedRows.indexOf(row), 1);
@@ -115,4 +129,45 @@ export class DeviceScreenComponent implements OnInit{
       this.selection.clear();
     })
   }
+
+  public updateDevice = (deviceId: string) => {
+    const updatedUser: INewDevice = {
+      device_name: this.formDeviceName,
+      description: this.formDeviceDescription,
+      plug_id: this.formPlugId,
+      threshold: this.formThreshold
+    }
+
+    this.deviceService.updateDevice(deviceId, updatedUser).subscribe((updatedDevice: IDevice) => {
+      const index = this.deviceList.data.findIndex(x => x._id === deviceId);
+      this.deviceList.data[index] = updatedDevice;
+      this.deviceList = new MatTableDataSource(this.deviceList.data);
+      this.isEdit = false;
+    })
+  }
+
+  public switchDevicesStatus = (status:string) => {
+    this.selectedRows.forEach(device => {
+      this.commandService.switchStatus(device.plug_id, status).subscribe(() => {
+        // pass, probably a notification in the future
+      });
+    })
+  }
+
+  public switchStatusCd = () => {
+    this.selectedRows.forEach(device => {
+      this.commandService.setIntervalSwitch(device.plug_id, this.countDownHours, this.countDownMinutes).subscribe(() => {
+        // pass, probably a notification in the future
+      })
+    })
+  }
+
+  public setReportInterval = () => {
+    this.selectedRows.forEach(device => {
+      this.commandService.setReportInterval(device.plug_id, this.plugDelay).subscribe(() => {
+        // pass, proably a notification here in the future
+      })
+    })
+  }
+
 }

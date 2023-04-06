@@ -9,8 +9,8 @@ import { TelemetryService } from '../../../services/telemetry.service';
   styleUrls: ['./consumption-bar-chart.component.css']
 })
 export class ConsumptionBarChartComponent implements OnInit {
-  @Input() startDateTime!: Date;
-  @Input() endDateTime!: Date;
+  @Input() startDate!: string;
+  @Input() endDate!: string;
 
   public telemetryList: IConsumptionSeries[] = [];
   public metrics: IConsumptionSeries[] = [];
@@ -40,8 +40,9 @@ export class ConsumptionBarChartComponent implements OnInit {
 
   constructor(private telemetryService: TelemetryService) { }
 
+  // "2023-03-03T13:00:00Z", "2023-03-07T15:30:00Z"
   ngOnInit(): void {
-    this.telemetryService.getTotalConsumptionByDevice("2023-03-03T13:00:00Z", "2023-03-07T15:30:00Z").subscribe((messages) => {
+    this.telemetryService.getTotalConsumptionByDevice(this.startDate, this.endDate).subscribe((messages) => {
       this.telemetryList = messages;
       this.metrics = this.telemetryList;
     });

@@ -13,15 +13,25 @@ export class GraphPanelComponent implements OnInit {
   private today = new Date();
   private month = this.today.getMonth();
   private year = this.today.getFullYear();
+  public startTime: string = "00:00";
+  public endTime: string = "23:59"
 
-
-  campaignOne = new FormGroup({
+  public campaignOne = new FormGroup({
     start: new FormControl(new Date(this.year, this.month, 13)),
     end: new FormControl(new Date(this.year, this.month, 16)),
   });
 
+  public startDate = this.campaignOne.controls['start'].value?.toISOString().slice(0, 11) + this.startTime + ":00Z";
+  public endDate = this.campaignOne.controls['end'].value?.toISOString().slice(0, 11) + this.endTime + ":00Z";
+  
   constructor(private telemetryService: TelemetryService ){}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    
+  }
 
+  public handleSubmit = () => {
+    // console.log(this.campaignOne.controls['start'].value?.toISOString().slice(0, 11))
+    console.log(this.startDate)
+  }
 }

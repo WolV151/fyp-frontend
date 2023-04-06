@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input} from '@angular/core';
 import { ScaleType } from '@swimlane/ngx-charts';
 import { IConsumptionSeries } from 'src/interface/IConsumptionSeries';
 import { ISeriesData } from 'src/interface/ISeriesData';
@@ -10,6 +10,9 @@ import { TelemetryService } from '../../../services/telemetry.service';
   styleUrls: ['./consumption-line-chart.component.css']
 })
 export class ConsumptionLineChartComponent implements OnInit{
+  @Input() startDate!: string;
+  @Input() endDate!: string;
+
   public telemetryList: IConsumptionSeries[] = [];
   public hardCodedIdDummy:string = "MK117-1b6c";
   public metrics: ISeriesData[] = []
@@ -40,7 +43,7 @@ export class ConsumptionLineChartComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.telemetryService.getDeviceConsumption(this.hardCodedIdDummy, "2023-03-03T13:00:00Z", "2023-03-03T15:30:00Z").subscribe((messages) => {
+    this.telemetryService.getDeviceConsumption(this.hardCodedIdDummy, this.startDate, this.endDate).subscribe((messages) => {
       this.telemetryList = messages;
 
       const singleData: ISeriesData = {
