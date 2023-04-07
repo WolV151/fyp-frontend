@@ -3,6 +3,8 @@ import { ScaleType } from '@swimlane/ngx-charts';
 import { IConsumptionSeries } from 'src/interface/IConsumptionSeries';
 import { ISeriesData } from 'src/interface/ISeriesData';
 import { TelemetryService } from '../../../services/telemetry.service';
+import { IDateDataSeries } from 'src/interface/IDateDataSeries';
+import { IDateConsumptionSeries } from 'src/interface/IDateConsumptionSeries';
 
 @Component({
   selector: 'app-consumption-total-line-chart',
@@ -13,9 +15,9 @@ export class ConsumptionTotalLineChartComponent implements OnInit, OnChanges{
   @Input() startDate!: string;
   @Input() endDate!: string;
 
-  public telemetryList: ISeriesData[] = [];
+  public telemetryList: IDateDataSeries[] = [];
   public hardCodedIdDummy:string = "MK117-1b6c";
-  public metrics: ISeriesData[] = []
+  public metrics: IDateDataSeries[] = []
   public view:[number, number] = [875,300]
 
   //opts
@@ -44,7 +46,25 @@ export class ConsumptionTotalLineChartComponent implements OnInit, OnChanges{
 
   ngOnInit(): void {
     this.telemetryService.getTotalPowerConsumptionInRange(this.startDate, this.endDate).subscribe((messages) => {
-      this.telemetryList = messages;
+      const convertedDateSeries: IDateDataSeries[] = []; // this paid off... although perhaps it would be better if the back end did this
+      messages.forEach(e => {
+        const tempSerieHolder: IDateConsumptionSeries[] = [];
+        e.series.forEach(serie=> {
+          const newData: IDateConsumptionSeries = {
+            name: new Date(serie.name),
+            value: serie.value
+          }
+          tempSerieHolder.push(newData);
+        })
+
+        const tempDateHolder: IDateDataSeries = {
+          name: e.name,
+          series: tempSerieHolder
+        }
+        convertedDateSeries.push(tempDateHolder);
+      })
+
+      this.telemetryList = convertedDateSeries;
       this.metrics = this.telemetryList;
       // split multiple usages first by adding artificial 0s
       this.metrics.forEach(device => {
@@ -52,19 +72,17 @@ export class ConsumptionTotalLineChartComponent implements OnInit, OnChanges{
         for (let i = 0; i < device.series.length; i++) {
           try {
             wattSum += device.series[i].value;
-            const current = new Date(device.series[i].name);
-            const next = new Date(device.series[i + 1].name);
+            const current = device.series[i].name;
+            const next = device.series[i + 1].name;
             const dif = (next.getTime() - current.getTime()) / 1000;
-
-            device.series[i].name = new Date(device.series[i].name);
 
             if (dif > 10) { // one usage
               console.log(dif);
-              const newDate: Date = new Date(device.series[i + 1].name) // insert artificial data
+              const newDate: Date = new Date(device.series[i].name) // insert artificial data
               for (let j = 1; j < 4; j++) {
-                newDate.setSeconds(newDate.getSeconds() - j);
-                const newZero: IConsumptionSeries = {
-                  name: newDate.toISOString(),
+                newDate.setSeconds(newDate.getSeconds() + j);
+                const newZero: IDateConsumptionSeries = {
+                  name: newDate,
                   value: 0
                 }
                 device.series.splice(i + 1, 0, newZero);
