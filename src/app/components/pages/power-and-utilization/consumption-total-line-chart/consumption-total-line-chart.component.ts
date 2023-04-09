@@ -68,16 +68,14 @@ export class ConsumptionTotalLineChartComponent implements OnInit, OnChanges{
       this.metrics = this.telemetryList;
       // split multiple usages first by adding artificial 0s
       this.metrics.forEach(device => {
-        let wattSum: number = 0;
         for (let i = 0; i < device.series.length; i++) {
           try {
-            wattSum += device.series[i].value;
             const current = device.series[i].name;
             const next = device.series[i + 1].name;
             const dif = (next.getTime() - current.getTime()) / 1000;
 
-            if (dif > 10) { // one usage
-              console.log(dif);
+            if (dif > 20) { // one usage
+            
               const newDate: Date = new Date(device.series[i].name) // insert artificial data
               for (let j = 1; j < 4; j++) {
                 newDate.setSeconds(newDate.getSeconds() + j);

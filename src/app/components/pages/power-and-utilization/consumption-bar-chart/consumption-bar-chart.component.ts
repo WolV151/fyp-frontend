@@ -75,7 +75,7 @@ export class ConsumptionBarChartComponent implements OnInit, OnChanges {
               this.averageWatts[device.name] += device.series[i].value;
 
             if (dif > 10) { // one usage
-              currentUsageEndDate = new Date(device.series[i].name);
+              currentUsageEndDate = new Date(device.series[i-1].name);
 
               const hourDiff: number = Math.abs(((currentUsageEndDate.getTime() - currentUsageStartDate.getTime())) / 36e5);
               if (!this.hourCalculator[device.name])
@@ -93,7 +93,7 @@ export class ConsumptionBarChartComponent implements OnInit, OnChanges {
                 device.series.splice(i + 1, 0, newZero);
               }
               i += 2;
-              currentUsageStartDate = new Date(device.series[i].name);
+              currentUsageStartDate = new Date(device.series[i+1].name);
             }
 
           } catch (e: unknown) {

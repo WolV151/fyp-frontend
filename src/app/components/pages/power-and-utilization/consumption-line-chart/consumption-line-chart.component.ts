@@ -5,6 +5,7 @@ import { ISeriesData } from 'src/interface/ISeriesData';
 import { TelemetryService } from '../../../services/telemetry.service';
 import { IDateConsumptionSeries } from 'src/interface/IDateConsumptionSeries';
 import { IDateDataSeries } from 'src/interface/IDateDataSeries';
+import { tickStep } from 'd3';
 
 @Component({
   selector: 'app-consumption-line-chart',
@@ -44,6 +45,8 @@ export class ConsumptionLineChartComponent implements OnInit, OnChanges{
     
   }
   ngOnChanges(changes: SimpleChanges): void {
+    this.telemetryList = []
+    this.metrics = []
     this.ngOnInit();
   }
 

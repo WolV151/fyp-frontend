@@ -49,6 +49,7 @@ import { LoginComponent } from './components/pages/login/login.component'
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { DeviceDetailsComponent } from './components/pages/devices/device-details/device-details.component';
 import { UtilPanelComponent } from './components/pages/power-and-utilization/util-panel/util-panel.component';
+import { WorkingTimeComponent } from './components/pages/power-and-utilization/working-time/working-time.component';
 
 
 @NgModule({
@@ -68,6 +69,7 @@ import { UtilPanelComponent } from './components/pages/power-and-utilization/uti
     LoginComponent,
     DeviceDetailsComponent,
     UtilPanelComponent,
+    WorkingTimeComponent,
   ],
   imports: [
     BrowserModule,
