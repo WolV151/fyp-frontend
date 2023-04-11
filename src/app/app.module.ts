@@ -50,6 +50,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { DeviceDetailsComponent } from './components/pages/devices/device-details/device-details.component';
 import { UtilPanelComponent } from './components/pages/power-and-utilization/util-panel/util-panel.component';
 import { WorkingTimeComponent } from './components/pages/power-and-utilization/working-time/working-time.component';
+import { MaintenanceScreenComponent } from './components/pages/devices/maintenance-screen/maintenance-screen.component';
 
 
 @NgModule({
@@ -70,6 +71,7 @@ import { WorkingTimeComponent } from './components/pages/power-and-utilization/w
     DeviceDetailsComponent,
     UtilPanelComponent,
     WorkingTimeComponent,
+    MaintenanceScreenComponent,
   ],
   imports: [
     BrowserModule,

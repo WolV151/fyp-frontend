@@ -36,7 +36,6 @@ export class DeviceScreenComponent implements OnInit{
   constructor(private deviceService: DeviceService, private commandService:CommandService, private modalService: NgbModal, private router: Router) {
     this.deviceService.getAllSmartPlugs().subscribe((plugs) => {
       this.smartPlugList = plugs;
-      console.log(this.smartPlugList);
     })
   }
 
@@ -89,16 +88,6 @@ export class DeviceScreenComponent implements OnInit{
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    const myVar: boolean = this.selection.isSelected(row);
-    if (myVar) {
-      if (!this.selectedRows.includes(row)){
-        this.selectedRows.push(row);
-        console.log(this.selectedRows)
-      }
-      
-    } else {
-      this.selectedRows.splice(this.selectedRows.indexOf(row), 1);
-    }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row._id + 1}`;
   }
 
@@ -115,8 +104,22 @@ export class DeviceScreenComponent implements OnInit{
     });
   }
 
+  public handleCheckedItem = () => {
+    this.deviceList.data.forEach((device: IDevice) => {
+      if (this.selection.isSelected(device) && !this.selectedRows.includes(device))
+        this.selectedRows.push(device);
+      
+      if (!this.selection.isSelected(device) && this.selectedRows.includes(device))
+        this.selectedRows.splice(this.selectedRows.indexOf(device), 1);
+    });
+  }
+
   public handleDetailsRedirect = (device_id: string) => {
     return this.router.navigate(['devices/details', device_id]);
+  }
+
+  public handleMaintenanceRedirect = (deviceId: string) => {
+    return this.router.navigate(['devices/maintenance', deviceId]);
   }
 
   public deleteDevices = () => {
@@ -147,6 +150,7 @@ export class DeviceScreenComponent implements OnInit{
   }
 
   public switchDevicesStatus = (status:string) => {
+    this.handleCheckedItem();
     this.selectedRows.forEach(device => {
       this.commandService.switchStatus(device.plug_id, status).subscribe(() => {
         // pass, probably a notification in the future
@@ -155,6 +159,7 @@ export class DeviceScreenComponent implements OnInit{
   }
 
   public switchStatusCd = () => {
+    this.handleCheckedItem();
     this.selectedRows.forEach(device => {
       this.commandService.setIntervalSwitch(device.plug_id, this.countDownHours, this.countDownMinutes).subscribe(() => {
         // pass, probably a notification in the future
@@ -163,6 +168,7 @@ export class DeviceScreenComponent implements OnInit{
   }
 
   public setReportInterval = () => {
+    this.handleCheckedItem();
     this.selectedRows.forEach(device => {
       this.commandService.setReportInterval(device.plug_id, this.plugDelay).subscribe(() => {
         // pass, proably a notification here in the future

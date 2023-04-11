@@ -56,7 +56,7 @@ export class WorkingTimeComponent implements OnInit, OnChanges {
       })
 
       const telemetryList: IDateDataSeries[] = convertedDateSeries;
-      console.log(convertedDateSeries);
+      // console.log(convertedDateSeries);
 
       telemetryList.forEach(device => {
         let currentUsageStartDate: Date = new Date(device.series[0].name); // initial start date
@@ -71,7 +71,7 @@ export class WorkingTimeComponent implements OnInit, OnChanges {
             //   console.log(currentUsageStartDate);
             // }
             
-            console.log(i);
+            // console.log(i);
 
             if (dif > 20 || i == device.series.length - 2) { // one usage
               currentUsageEndDate = new Date(device.series[i-1].name);
@@ -110,7 +110,7 @@ export class WorkingTimeComponent implements OnInit, OnChanges {
         this.timeDisplayData.push(time);
       }
       this.timeDisplayData = [...this.timeDisplayData];
-      console.log(this.timeDisplayData);
+      // console.log(this.timeDisplayData);
     })
 
   }
