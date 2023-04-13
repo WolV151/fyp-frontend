@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, Type} from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Type } from '@angular/core';
 import { ScaleType } from '@swimlane/ngx-charts';
 import { IConsumptionSeries } from 'src/interface/IConsumptionSeries';
 import { ISeriesData } from 'src/interface/ISeriesData';
@@ -12,26 +12,26 @@ import { tickStep } from 'd3';
   templateUrl: './consumption-line-chart.component.html',
   styleUrls: ['./consumption-line-chart.component.css']
 })
-export class ConsumptionLineChartComponent implements OnInit, OnChanges{
+export class ConsumptionLineChartComponent implements OnInit, OnChanges {
   @Input() startDate!: string;
   @Input() endDate!: string;
 
   public telemetryList: IDateConsumptionSeries[] = [];
-  public hardCodedIdDummy:string = "MK117-1b6c";
-  public metrics: IDateDataSeries[] = []
-  public view:[number, number] = [875,300]
+  public hardCodedIdDummy: string = "MK117-1b6c";
+  public metrics: IDateDataSeries[] = [];
+  public view: [number, number] = [875, 300]
 
   //opts
-  public legend:boolean = true;
-  public showLabels:boolean = true;
-  public animations:boolean = true;
-  public xAxis:boolean = true;
-  public yAxis:boolean = true;
-  public showYAxisLabel:boolean = true;
-  public showXAxisLabel:boolean = true;
-  public xAxisLabel:string = "Time and Date";
-  public yAxisLabel:string = "Consumption";
-  public timeline:boolean = true;
+  public legend: boolean = true;
+  public showLabels: boolean = true;
+  public animations: boolean = true;
+  public xAxis: boolean = true;
+  public yAxis: boolean = true;
+  public showYAxisLabel: boolean = true;
+  public showXAxisLabel: boolean = true;
+  public xAxisLabel: string = "Time and Date";
+  public yAxisLabel: string = "Consumption (Watts)";
+  public timeline: boolean = true;
 
   colorScheme = {
     name: 'myScheme',
@@ -41,61 +41,90 @@ export class ConsumptionLineChartComponent implements OnInit, OnChanges{
   };
 
 
-  constructor(private telemetryService: TelemetryService) { 
-    
+  constructor(private telemetryService: TelemetryService) {
+
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.telemetryList = []
-    this.metrics = []
+    this.metrics = [];
     this.ngOnInit();
   }
 
   ngOnInit(): void {
-    this.telemetryService.getDeviceConsumption(this.hardCodedIdDummy, this.startDate, this.endDate).subscribe((messages) => {
-      const convertedDateSeries: IDateConsumptionSeries[] = []; // this paid off... although perhaps it would be better if the back end did this
-      messages.forEach(e => {
-        const tempDateHolder: IDateConsumptionSeries = {
-          name: new Date(e.name),
-          value: e.value
-        }
-        convertedDateSeries.push(tempDateHolder);
-      })
-      this.telemetryList = convertedDateSeries;
+    this.telemetryService.returnAllConsumptionInRange(this.startDate, this.endDate).subscribe((collection) => {
+      const dataSeriesHolder: IDateConsumptionSeries[] = []
+      for (let i = 0; i < collection.length; i++) {
+        try {
+          const currentSplitData: string[] = collection[i].name.split(" ");
+          const nextSplitData: string[] = collection[i + 1].name.split(" ");
 
-      const singleData: IDateDataSeries = {
-        name: this.hardCodedIdDummy,
-        series: this.telemetryList
-      }
-      let collection: IDateDataSeries[] = []
+          const currentDevId: string = currentSplitData[0];
+          const nextDevId: string = nextSplitData[0];
 
-      collection.push(singleData);
+          const currentTimeStamp: Date = new Date(currentSplitData[1]);
+          const nextTimeStamp: Date = new Date(nextSplitData[1]);
 
-      this.metrics = collection;
+          const currentValue: number = collection[i].value;
+          const nextValue: number = collection[i + 1].value;
 
-      for (let i = 0; i < this.metrics[0].series.length; i++) {
-        try{
-          const current = this.metrics[0].series[i].name;
-          const next = this.metrics[0].series[i+1].name;
-          const dif = (next.getTime() - current.getTime()) / 1000;
+          const dif = (nextTimeStamp.getTime() - currentTimeStamp.getTime()) / 1000;
 
-          if (dif > 10) {
-            const newDate: Date = this.metrics[0].series[i].name;
-
-            for (let j=1;j<4;j++) {
-              newDate.setSeconds(newDate.getSeconds() + j+j);
-              const newZero: IDateConsumptionSeries = {
-                name: newDate,
-                value: 0
-              }
-              this.metrics[0].series.splice(i+1, 0, newZero);
+          if ((dif <= 10) && (currentDevId !== nextDevId)) {
+            const dataObj: IDateConsumptionSeries = {
+              name: currentTimeStamp,
+              value: currentValue + nextValue
             }
-            i+=2;
+            dataSeriesHolder.push(dataObj);
+
+          } else if (dif > 20) {
+            const newDate: Date = new Date(currentTimeStamp) // insert artificial data
+            const newDate2: Date = new Date(nextTimeStamp);
+            // console.log(newDate2)
+
+            newDate.setSeconds(newDate.getSeconds() + 1);  // create new date with a 0 based on the end of the current
+            newDate2.setSeconds(newDate2.getSeconds() - 1)  // based on the date of the next usage and insert a 0 before it
+            const newZero: IDateConsumptionSeries = {
+              name: newDate,
+              value: 0
+            }
+            const newZero2: IDateConsumptionSeries = {
+              name: newDate2,
+              value: 0
+            }
+            const currentData: IDateConsumptionSeries = {
+              name: currentTimeStamp,
+              value: currentValue
+            }
+
+            const nextData: IDateConsumptionSeries = {
+              name: nextTimeStamp,
+              value: nextValue
+            }
+
+            dataSeriesHolder.push(currentData);
+            dataSeriesHolder.push(newZero);
+            dataSeriesHolder.push(newZero2);
+            dataSeriesHolder.push(nextData);
+            i += 1;
+          } else {
+            const currentData: IDateConsumptionSeries = {
+              name: currentTimeStamp,
+              value: currentValue
+            }
+            dataSeriesHolder.push(currentData);
           }
 
         } catch (e: unknown) {
           break;
         }
       }
+      this.telemetryList = dataSeriesHolder;
+      const completeObj: IDateDataSeries = {
+        name: "Total",
+        series: this.telemetryList
+      }
+      this.metrics.push(completeObj);
+      this.metrics = [...this.metrics]; 
     });
   }
 }

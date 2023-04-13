@@ -67,21 +67,9 @@ export class WorkingTimeComponent implements OnInit, OnChanges {
             const next = device.series[i + 1].name;
             const dif = (next.getTime() - current.getTime()) / 1000;
 
-            // if (device.name == "MK117-1b6c") {
-            //   console.log(currentUsageStartDate);
-            // }
-            
-            // console.log(i);
-
             if (dif > 20 || i == device.series.length - 2) { // one usage
               currentUsageEndDate = new Date(device.series[i-1].name);
               const hourDiff = Math.abs(((currentUsageEndDate.getTime() - currentUsageStartDate.getTime())) / 36e5);
-
-              // if (device.name == "MK117-1b6c") {
-              //   console.log("Current timestamp " + currentUsageStartDate);
-              //   console.log("Next timestamp" + currentUsageEndDate);
-              //   console.log("Difference" + hourDiff);
-              // }
               currentUsageStartDate = new Date(device.series[i+1].name);
 
               if (!this.timeHolder[device.name])

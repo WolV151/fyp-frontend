@@ -22,16 +22,25 @@ export class TelemetryService {
   private totalDevConsumptionPath: string = "/biggestConsumer";
   private totalAllDevConsumptionPath:string = "/totalPower";
   private getUtilizationForDevicePath: string = "/findUtilization";
+  private returnAllConsumption: string = "/allConsumption"
+  private returnElectricalPropertiesPath: string = "/electricalProperites"
 
 
   constructor(private httpClient: HttpClient) { }
 
-  public getDeviceConsumption = (deviceId: string, startDate:string, endDate:string): Observable<IConsumptionSeries[]> => {
-    return this.httpClient.get<IConsumptionSeries[]>
-    (
-      this.apiUrl + this.devConsumptPath + "/" + deviceId + "/" + startDate + "/" + endDate,
-      headerOptions
-    );
+  public getDeviceConsumption = (deviceId: string, startDate?:string, endDate?:string): Observable<IConsumptionSeries[]> => {
+    if (startDate && endDate)
+      return this.httpClient.get<IConsumptionSeries[]>
+      (
+        this.apiUrl + this.devConsumptPath + "/" + deviceId + "/" + startDate + "/" + endDate,
+        headerOptions
+      );
+    else
+      return this.httpClient.get<IConsumptionSeries[]>
+        (
+          this.apiUrl + this.devConsumptPath + "/" + deviceId,
+          headerOptions
+        );
   }
 
   public getTotalConsumptionByDevice = (startDate:string, endDate:string): Observable<IConsumptionSeries[]> => {
@@ -53,6 +62,20 @@ export class TelemetryService {
     (
       this.apiUrl + this.getUtilizationForDevicePath + "/" + deviceId + "/" + startDate + "/" + endDate
     )
+  }
+
+  public returnAllConsumptionInRange = (startDate: string, endDate: string): Observable <IConsumptionSeries[]> => {
+    return this.httpClient.get<IConsumptionSeries[]>
+    (
+      this.apiUrl + this.returnAllConsumption + "/" + startDate + "/" + endDate, headerOptions
+    );
+  }
+
+  public returnElectricalProperties = (deviceId: string): Observable <IConsumptionSeries[]> => {
+    return this.httpClient.get<IConsumptionSeries[]>
+    (
+      this.apiUrl + this.returnElectricalPropertiesPath + "/" + deviceId, headerOptions
+    );
   }
 
 
