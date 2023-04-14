@@ -51,6 +51,8 @@ import { DeviceDetailsComponent } from './components/pages/devices/device-detail
 import { UtilPanelComponent } from './components/pages/power-and-utilization/util-panel/util-panel.component';
 import { WorkingTimeComponent } from './components/pages/power-and-utilization/working-time/working-time.component';
 import { MaintenanceScreenComponent } from './components/pages/devices/maintenance-screen/maintenance-screen.component';
+import { CostCheckPanelComponent } from './components/pages/cost-check/cost-check-panel/cost-check-panel.component';
+import { CostLineChartComponent } from './components/pages/cost-check/cost-line-chart/cost-line-chart.component';
 
 
 @NgModule({
@@ -72,6 +74,8 @@ import { MaintenanceScreenComponent } from './components/pages/devices/maintenan
     UtilPanelComponent,
     WorkingTimeComponent,
     MaintenanceScreenComponent,
+    CostCheckPanelComponent,
+    CostLineChartComponent,
   ],
   imports: [
     BrowserModule,

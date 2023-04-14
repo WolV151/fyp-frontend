@@ -26,6 +26,9 @@ export class AppComponent {
       case "Users":
         this.router.navigate(['users']);
         break;
+      case "Cost Check":
+        this.router.navigate(['cost']);
+        break;
       case "Devices":
         this.router.navigate(['devices']);
         break;

@@ -9,6 +9,7 @@ import { AuthGuardLoginService } from './components/services/auth-guard-login.se
 import { AuthGuardService } from './components/services/auth-guard.service';
 import { UtilPanelComponent } from './components/pages/power-and-utilization/util-panel/util-panel.component';
 import { MaintenanceScreenComponent } from './components/pages/devices/maintenance-screen/maintenance-screen.component';
+import { CostCheckPanelComponent } from './components/pages/cost-check/cost-check-panel/cost-check-panel.component';
 
 const routes: Routes = [
   {path: '', component: UtilPanelComponent, canActivate: [AuthGuardService]},
@@ -16,6 +17,7 @@ const routes: Routes = [
   {path: 'devices', component: DeviceScreenComponent, canActivate: [AuthGuardService]},
   {path: 'devices/details/:id', component: DeviceDetailsComponent, canActivate: [AuthGuardService]},
   {path: 'devices/maintenance/:id', component: MaintenanceScreenComponent, canActivate: [AuthGuardService]},
+  {path: 'cost', component: CostCheckPanelComponent, canActivate: [AuthGuardService]},
   {path: 'login', component: LoginComponent, canActivate: [AuthGuardLoginService]},
 ];
 
