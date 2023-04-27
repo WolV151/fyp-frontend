@@ -1,0 +1,29 @@
+<mat-card class="m-3">
+    <mat-card-title class="m-2">{{deviceDetails.device_name}}'s Details</mat-card-title>
+    <mat-card-header></mat-card-header>
+    <mat-card-content class="d-flex justify-content-around">
+        <div>
+            Smart Plug: {{deviceDetails.plug_id}}
+        </div>
+        <div>
+            Description: {{deviceDetails.description}}
+        </div>
+        <div>
+            Threshold: {{deviceDetails.threshold}}
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<mat-card class="m-3">
+    <mat-card-title class="m-2 d-flex justify-content-center">{{deviceDetails.device_name}}'s Overall Statistics</mat-card-title>
+    <mat-card-header></mat-card-header>
+    <mat-card-content class="d-flex justify-content-center">
+        <ngx-charts-number-card 
+            [view]="view" 
+            [scheme]="colorScheme" 
+            [results]="cardInformation" 
+            [cardColor]="cardColor"
+            >
+        </ngx-charts-number-card>
+    </mat-card-content>
+</mat-card>

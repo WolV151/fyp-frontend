@@ -1,5 +1,6 @@
 <mat-card>
-  <mat-card-title>Consumption over Time</mat-card-title>
+  <mat-card-title>Individual Consumption over Time</mat-card-title>
+  <hr>
   <mat-card-content>
     <ngx-charts-line-chart
     [view]="view"
@@ -13,6 +14,7 @@
     [yAxisLabel]="yAxisLabel"
     [timeline]="timeline"
     [results]="metrics"
+    [timeline]="true"
     >
     </ngx-charts-line-chart>
   </mat-card-content>

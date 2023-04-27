@@ -1,5 +1,5 @@
 <mat-sidenav-container class="nav-container">
-    <mat-sidenav #sidenav [opened]="isOpened" [disableClose]="true">
+    <mat-sidenav #start mode="over" fixedInViewport="true" #sidenav [opened]="isOpened" [disableClose]="true">
         <div class="mt-3">
             <app-side-nav-content (sideBarEvent)="toggleSideNav(); redirect($event)"></app-side-nav-content>
         </div>
@@ -10,7 +10,7 @@
     </mat-sidenav>
 
     <mat-sidenav-content>
-        <app-header (navBarEvent)="toggleSideNav()"></app-header>
+        <app-header *ngIf="hasNotRoute('/login')" (navBarEvent)="toggleSideNav()" (logOutEvent)="handleLogout()"></app-header>
         <!-- <app-graph-panel></app-graph-panel> -->
         <router-outlet></router-outlet>
     </mat-sidenav-content>
