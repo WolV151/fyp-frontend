@@ -18,10 +18,19 @@ export class WorkingTimeComponent implements OnInit, OnChanges {
   public timeHolder: Record<string, number> = {};
 
   view: [number, number] = [875, 300];
-  gradient: boolean = true;
+  gradient: boolean = false;
   showLegend: boolean = true;
   showLabels: boolean = true;
   isDoughnut: boolean = false;
+  public xAxisLabel: string = "Device";
+  public yAxisLabel: string = "Working Time (Hrs)";
+
+  // colorScheme = {
+  //   name: 'myScheme',
+  //   selectable: true,
+  //   group: ScaleType.Ordinal,
+  //   domain: ['#f00', '#0f0', '#0ff'],
+  // };
 
   colorScheme = {
     name: 'myScheme',
@@ -29,7 +38,6 @@ export class WorkingTimeComponent implements OnInit, OnChanges {
     group: ScaleType.Ordinal,
     domain: ['#f00', '#0f0', '#0ff'],
   };
-
 
   constructor(private telemetryService: TelemetryService) {
 

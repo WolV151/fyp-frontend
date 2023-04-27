@@ -103,8 +103,8 @@ export class DeviceDetailsComponent implements OnInit {
     }
 
     const consumptionForOneHour: IConsumptionSeries = {
-      name: "KWH For One Hour",
-      value: (collection[0].value * 1) / 1000
+      name: "kWh For Three Hours",
+      value: (collection[0].value * 3) / 1000
     }
 
     return [averageTime, averagePowerConsumption, consumptionForOneHour];

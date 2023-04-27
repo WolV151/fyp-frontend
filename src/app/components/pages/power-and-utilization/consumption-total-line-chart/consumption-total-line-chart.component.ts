@@ -54,8 +54,10 @@ export class ConsumptionTotalLineChartComponent implements OnInit, OnChanges {
       messages.forEach(e => {
         const tempSerieHolder: IDateConsumptionSeries[] = [];
         e.series.forEach(serie => {
+          const convertedSerieName = new Date(serie.name)
+          convertedSerieName.setHours(convertedSerieName.getHours() - 3)
           const newData: IDateConsumptionSeries = {
-            name: new Date(serie.name),
+            name: convertedSerieName,
             value: serie.value
           }
           tempSerieHolder.push(newData);
@@ -70,6 +72,7 @@ export class ConsumptionTotalLineChartComponent implements OnInit, OnChanges {
 
       this.telemetryList = convertedDateSeries;
       this.metrics = this.telemetryList;
+      
       // split multiple usages first by adding artificial 0s
       this.metrics.forEach(device => {
         for (let i = 0; i < device.series.length; i++) {

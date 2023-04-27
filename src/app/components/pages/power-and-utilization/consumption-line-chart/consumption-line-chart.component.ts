@@ -52,6 +52,7 @@ export class ConsumptionLineChartComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.telemetryService.returnAllConsumptionInRange(this.startDate, this.endDate).subscribe((collection) => {
+      console.log(collection);
       const dataSeriesHolder: IDateConsumptionSeries[] = []
       for (let i = 0; i < collection.length; i++) {
         try {
@@ -62,7 +63,11 @@ export class ConsumptionLineChartComponent implements OnInit, OnChanges {
           const nextDevId: string = nextSplitData[0];
 
           const currentTimeStamp: Date = new Date(currentSplitData[1]);
+          currentTimeStamp.setHours(currentTimeStamp.getHours() - 3)
+          console.log(currentSplitData[1]);
+          console.log(currentTimeStamp)
           const nextTimeStamp: Date = new Date(nextSplitData[1]);
+          nextTimeStamp.setHours(nextTimeStamp.getHours() - 3)
 
           const currentValue: number = collection[i].value;
           const nextValue: number = collection[i + 1].value;
@@ -125,6 +130,7 @@ export class ConsumptionLineChartComponent implements OnInit, OnChanges {
       }
       this.metrics.push(completeObj);
       this.metrics = [...this.metrics]; 
+      // console.log(this.metrics);
     });
   }
 }
