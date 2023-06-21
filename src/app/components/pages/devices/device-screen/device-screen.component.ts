@@ -123,6 +123,7 @@ export class DeviceScreenComponent implements OnInit{
   }
 
   public deleteDevices = () => {
+    this.handleCheckedItem();
     this.deviceService.deleteDevice(this.selectedRows).subscribe(() => {
       this.selectedRows.forEach(elem => {
         this.deviceList.data.splice(this.deviceList.data.indexOf(elem), 1);
